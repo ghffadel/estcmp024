@@ -21,13 +21,25 @@ export default function Post () {
 
   const addComment = () => {
     axios
-      .post('http://localhost:3001/comments', { 
+      .post('http://localhost:3001/comments', 
+      { 
         text: newComment, 
         PostId: id 
+      },
+      {
+        headers: {
+          accessToken: sessionStorage.getItem('accessToken')
+        }
       })
       .then((res) => {
-        setComments([...comments, { text: newComment }])
-        setNewComment('')
+        if (res.data.error) {
+          console.log(res.data.error)
+        }
+
+        else {
+          setComments([...comments, { text: newComment }])
+          setNewComment('')
+        }
       })
   }
 
