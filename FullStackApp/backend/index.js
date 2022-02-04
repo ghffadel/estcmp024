@@ -7,8 +7,10 @@ app.use(cors())
 
 const db = require('./models')
 
+const commentsRouter = require('./routes/Comments')
 const postsRouter = require('./routes/Posts')
 
+app.use('/comments', commentsRouter)
 app.use('/posts', postsRouter)
 
 db.sequelize.sync().then(() => {
