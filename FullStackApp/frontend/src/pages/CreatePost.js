@@ -11,6 +11,7 @@ export default function CreatePost () {
     text: '',
     user: ''
   }
+  
   let navigate = useNavigate()
 
   const validationSchema = Yup.object().shape({
