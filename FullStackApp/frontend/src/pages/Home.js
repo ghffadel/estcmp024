@@ -18,7 +18,11 @@ export default function Home () {
       {
         posts.map((value, key) => {
           return (
-            <div className="post" onClick={() => {navigate(`/post/${value.id}`)}}>
+            <div 
+              className="post"
+              key={key}
+              onClick={() => {navigate(`/post/${value.id}`)}}
+            >
               <div className="title"> {value.title} </div>
               <div className="body">{value.text}</div>
               <div className="footer">{value.user}</div>
