@@ -34,7 +34,7 @@ export default function Register () {
           <Field 
             autoComplete='off'
             id='inputCreatePost'
-            name='user'
+            name='username'
             placeholder='The username goes here...'
           />
 

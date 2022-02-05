@@ -5,6 +5,7 @@ const { sign } = require('jsonwebtoken')
 const router = express.Router()
 
 const { Users } = require('../models')
+const { validateToken } = require('../middlewares/AuthMiddleware')
 
 router.post('/', async (req, res) => {
   const { username, password } = req.body
@@ -23,18 +24,26 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.body
   const user = await Users.findOne({ where: { username: username } })
 
-  if (!user) res.json({ error: 'User not found' })
+  if (!user) {
+    res.json({ error: 'User not found' })
+  }
 
-  bcrypt.compare(password, user.password).then(async (match) => {
-    if (!match) res.json({ error: 'Wrong password' })
+  else {
+    bcrypt.compare(password, user.password).then(async (match) => {
+      if (!match) res.json({ error: 'Wrong password' })
 
-    const accessToken = sign(
-      { username: user.username, id: user.id }, 
-      'importantsecret'
-    )
+      const accessToken = sign(
+        { username: user.username, id: user.id }, 
+        'importantsecret'
+      )
 
-    res.json(accessToken)
-  })
+      res.json(accessToken)
+    })
+  }
+})
+
+router.get('/auth', validateToken, (req, res) => {
+  res.json(req.user)
 })
 
 module.exports = router

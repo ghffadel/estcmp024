@@ -21,23 +21,26 @@ export default function Post () {
 
   const addComment = () => {
     axios
-      .post('http://localhost:3001/comments', 
-      { 
+      .post('http://localhost:3001/comments', { 
         text: newComment, 
         PostId: id 
-      },
-      {
+      }, {
         headers: {
-          accessToken: sessionStorage.getItem('accessToken')
+          accessToken: localStorage.getItem('accessToken')
         }
       })
       .then((res) => {
+        console.log(res.data)
+
         if (res.data.error) {
           console.log(res.data.error)
         }
 
         else {
-          setComments([...comments, { text: newComment }])
+          setComments([...comments, { 
+            text: newComment,
+            user: res.data.user
+          }])
           setNewComment('')
         }
       })
@@ -73,6 +76,7 @@ export default function Post () {
               return (
                 <div className='comment' key={key}>
                   {comment.text}
+                  <label>User: {comment.user}</label>
                 </div>
               )
             })
