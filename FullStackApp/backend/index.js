@@ -8,10 +8,12 @@ app.use(cors())
 const db = require('./models')
 
 const commentsRouter = require('./routes/Comments')
+const likesRouter = require('./routes/Likes')
 const postsRouter = require('./routes/Posts')
 const usersRouter = require('./routes/Users')
 
 app.use('/comments', commentsRouter)
+app.use('/likes', likesRouter)
 app.use('/posts', postsRouter)
 app.use('/auth', usersRouter)
 
