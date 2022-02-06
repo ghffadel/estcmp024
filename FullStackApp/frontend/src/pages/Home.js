@@ -3,14 +3,26 @@ import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+
 export default function Home () {
   const [posts, setPosts] = useState([])
+  const [likedPosts, setLikedPosts] = useState([])
   let navigate = useNavigate()
 
   useEffect(() => {
-    axios.get('http://localhost:3001/posts').then((res) => {
-      setPosts(res.data);
-    })
+    axios
+      .get('http://localhost:3001/posts', {
+        headers: {
+          accessToken: localStorage.getItem('accessToken')
+        }
+      })
+      .then((res) => {
+        setPosts(res.data.posts)
+        setLikedPosts(res.data.likedPosts.map((like) => {
+          return like.PostId
+        }))
+      })
   }, [])
 
   const like = (postId) => {
@@ -46,6 +58,16 @@ export default function Home () {
             }
           })
         )
+
+        if (likedPosts.includes(postId)) {
+          setLikedPosts(likedPosts.filter((id) => {
+            return id !== postId
+          }))
+        }
+
+        else {
+          setLikedPosts([...likedPosts, postId])
+        }
       })
   }
 
@@ -63,19 +85,23 @@ export default function Home () {
                   navigate(`/post/${value.id}`)
                 }}
               >
-                {value.postText}
+                {value.text}
               </div>
 
               <div className='footer'>
-                {value.username}{' '}
-                <button
-                  onClick={() => {
-                    like(value.id);
-                  }}
-                >
-                  {" "} Like
-                </button>
-                <label> {value.Likes.length}</label>
+                <div className='username'>{value.user}</div>
+                <div className='buttons'>
+                  <ThumbUpAltIcon 
+                    onClick={() => {
+                      like(value.id)
+                    }}
+                    className={
+                      likedPosts.includes(value.id) ? 'unlikeBttn' : 'likeBttn'
+                    }
+                  />
+
+                  <label>{value.Likes.length}</label>
+                </div>
               </div>
             </div>
           )
