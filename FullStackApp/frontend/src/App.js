@@ -65,16 +65,19 @@ export default function App () {
 
             <div className='links'>
               { 
-                !authState.status &&
-                (
+                !authState.status ? (
                   <>
                     <Link to='/login'>Login</Link>
                     <Link to='/register'>Register</Link>
                   </>
+                ) : (
+                  <>
+                    <Link to='/'>Home Page</Link>
+                    <Link to='/create-post'>Create a Post</Link>
+                  </>
                 )
               }
-              <Link to='/'>Home Page</Link>
-              <Link to='/create-post'>Create a Post</Link>
+              
             </div>
           </div>
           
