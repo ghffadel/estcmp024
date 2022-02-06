@@ -27,7 +27,7 @@ export default function CreatePost () {
 
   const onSubmit = (data) => {
     axios
-      .post('http://localhost:3001/posts', data, {
+      .post('http://localhost:3001/posts', {...data, UserId: authState.id}, {
         headers: {
           accessToken: localStorage.getItem('accessToken')
         }

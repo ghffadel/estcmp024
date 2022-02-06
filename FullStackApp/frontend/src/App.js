@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import { AuthContext } from './helpers/AuthContext'
 
+import ChangePassword from './pages/ChangePassword'
 import CreatePost from './pages/CreatePost'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -14,6 +15,7 @@ import Profile from './pages/Profile'
 import Register from './pages/Register'
 
 import './App.css'
+
 
 export default function App () {
   const [authState, setAuthState] = useState({
@@ -59,11 +61,6 @@ export default function App () {
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
           <div className='navbar'>
-            <div className='loggedInContainer'>
-              <h1>{authState.username}</h1>
-              { authState.status && <button onClick={logout}>Logout</button> }
-            </div>
-
             <div className='links'>
               { 
                 !authState.status ? (
@@ -80,6 +77,11 @@ export default function App () {
               }
               
             </div>
+
+            <div className='loggedInContainer'>
+              <Link to={`/profile/${authState.id}`}>{authState.username}</Link>
+              { authState.status && <button onClick={logout}>Logout</button> }
+            </div>
           </div>
           
           <Routes>
@@ -87,6 +89,7 @@ export default function App () {
             <Route path='/create-post' element={<CreatePost />} />
             <Route path='/post/:id' element={<Post />} />
             <Route path='/profile/:id' element={<Profile />} />
+            <Route path='/changepassword' element={<ChangePassword />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='*' element={<NotFound />} />

@@ -14,7 +14,7 @@ export default function Post () {
   let navigate = useNavigate()
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/posts/byId/${id}`).then((res) => {
+    axios.get(`http://localhost:3001/posts/byPostId/${id}`).then((res) => {
       setPostData(res.data)
     })
 
@@ -34,10 +34,8 @@ export default function Post () {
         }
       })
       .then((res) => {
-        console.log(res.data)
-
         if (res.data.error) {
-          console.log(res.data.error)
+          alert(res.data.error)
         }
 
         else {
@@ -78,12 +76,58 @@ export default function Post () {
       })
   }
 
+  const editPost = (option) => {
+    if (option === 'title') {
+      let newTitle = prompt('Enter new title:')
+      axios.put('http://localhost:3001/posts/title', {
+        newTitle: newTitle,
+        id: id
+      }, {
+        headers: {
+          accessToken: localStorage.getItem('accessToken')
+        }
+      })
+      setPostData({...postData, title: newTitle})
+    }
+
+    else {
+      let newText = prompt('Enter new text:')
+      axios.put('http://localhost:3001/posts/text', {
+        newText: newText,
+        id: id
+      }, {
+        headers: {
+          accessToken: localStorage.getItem('accessToken')
+        }
+      })
+      setPostData({...postData, text: newText})
+    }
+  }
+
   return (
     <div className='postPage'>
       <div className='leftSide'>
         <div className='post' id='individual'>
-          <div className='title'>{postData.title}</div>
-          <div className='body'>{postData.text}</div>
+          <div 
+            className='title'
+            onClick={() => {
+              if (authState.username === postData.user) {
+                editPost('title')
+              }
+            }}
+          >
+            {postData.title}
+          </div>
+          <div 
+            className='body'
+            onClick={() => {
+              if (authState.username === postData.user) {
+                editPost('text')
+              }
+            }}
+          >
+            {postData.text}
+          </div>
           <div className='footer'>
             {postData.user}
             {
@@ -121,7 +165,7 @@ export default function Post () {
               return (
                 <div className='comment' key={key}>
                   {comment.text}
-                  <label>User: {comment.user}</label>
+                  <label> User: {comment.user}</label>
                   {
                     authState.username === comment.user && (
                       <button onClick={() => {deleteComment(comment.id)}}>X</button>

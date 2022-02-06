@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 
@@ -15,9 +16,12 @@ export default function Register () {
     password: Yup.string().min(4).max(20).required()
   })
 
+  let navigate = useNavigate()
+
   const onSubmit = (data) => {
     axios.post('http://localhost:3001/auth', data).then(() => {
-      console.log(data)
+      alert('Successfully created account')
+      navigate('/login')
     })
   }
 
@@ -30,7 +34,7 @@ export default function Register () {
       >
         <Form className='formContainer'>
           <label>Username:</label>
-          <ErrorMessage name='user' component='span' />
+          <ErrorMessage name='username' component='span' />
           <Field 
             autoComplete='off'
             id='inputCreatePost'

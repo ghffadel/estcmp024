@@ -28,18 +28,17 @@ router.post('/login', async (req, res) => {
     res.json({ error: 'User not found' })
   }
 
-  else {
-    bcrypt.compare(password, user.password).then(async (match) => {
-      if (!match) res.json({ error: 'Wrong password' })
+  
+  bcrypt.compare(password, user.password).then(async (match) => {
+    if (!match) res.json({ error: 'Wrong password' })
 
-      const accessToken = sign(
-        { username: user.username, id: user.id }, 
-        'importantsecret'
-      )
+    const accessToken = sign(
+      { username: user.username, id: user.id }, 
+      'importantsecret'
+    )
 
-      res.json({ token: accessToken, username: username, id: user.id })
-    })
-  }
+    res.json({ token: accessToken, username: username, id: user.id })
+  })
 })
 
 router.get('/auth', validateToken, (req, res) => {
@@ -54,6 +53,37 @@ router.get('/basicinfo/:id', async (req, res) => {
     }
   })
   res.json(basicInfo)
+})
+
+router.put('/changepassword', validateToken, async (req, res) => {
+  const { oldPassword, newPassword } = req.body
+  const user = await Users.findOne({
+    where: {
+      username: req.user.username
+    }
+  })
+
+  bcrypt.compare(oldPassword, user.password).then(async (match) => {
+    if (!match) {
+      res.json({
+        error: 'Wrong password'
+      })
+    }
+
+    bcrypt.hash(newPassword, 10).then((hash) => {
+      Users.update(
+        {
+          password: hash
+        }, 
+        {
+          where: {
+            username: req.user.username
+          }
+        }
+      )
+      res.json('Password updated')
+    })
+  })
 })
 
 module.exports = router

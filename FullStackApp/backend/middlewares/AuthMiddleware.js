@@ -8,7 +8,7 @@ const validateToken = (req, res, next) => {
   try {
     const validToken = verify(accessToken, 'importantsecret')
 
-    req.user = validateToken
+    req.user = validToken
 
     if (validToken) {
       return next()

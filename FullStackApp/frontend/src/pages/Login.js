@@ -37,7 +37,7 @@ export default function Login () {
 
   return (
     <div className='loginContainer'>
-      <label>Username:</label>
+      <label>Username</label>
       <input 
         type='text'
         onChange={(event) => {
