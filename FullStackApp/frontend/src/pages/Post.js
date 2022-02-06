@@ -14,7 +14,7 @@ export default function Post () {
   let navigate = useNavigate()
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/posts/${id}`).then((res) => {
+    axios.get(`http://localhost:3001/posts/byId/${id}`).then((res) => {
       setPostData(res.data)
     })
 

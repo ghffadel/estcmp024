@@ -19,15 +19,27 @@ router.get('/', validateToken, async (req, res) => {
   })
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/byPostId/:id', async (req, res) => {
   const id = req.params.id
   const post = await Posts.findByPk(id)
   res.json(post)
 })
 
+router.get('/byUserId/:id', async (req, res) => {
+  const id = req.params.id
+  const posts = await Posts.findAll({
+    where: {
+      UserId: id
+    },
+    include: [Likes]
+  })
+  res.json(posts)
+})
+
 router.post('/', validateToken, async (req, res) => {
   const post = req.body
-  post.user = user.username
+  post.user = req.user.username
+  post.userId = req.user.id
   await Posts.create(post)
   res.json(post)
 })

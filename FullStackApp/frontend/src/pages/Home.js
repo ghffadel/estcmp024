@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 
@@ -96,7 +96,9 @@ export default function Home () {
               </div>
 
               <div className='footer'>
-                <div className='username'>{value.user}</div>
+                <div className='username'>
+                  <Link to={`/profile/${value.UserId}`}>{value.user}</Link>
+                </div>
                 <div className='buttons'>
                   <ThumbUpAltIcon 
                     onClick={() => {

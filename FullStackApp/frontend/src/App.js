@@ -10,6 +10,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import Post from './pages/Post'
+import Profile from './pages/Profile'
 import Register from './pages/Register'
 
 import './App.css'
@@ -85,6 +86,7 @@ export default function App () {
             <Route path='/' element={<Home />} />
             <Route path='/create-post' element={<CreatePost />} />
             <Route path='/post/:id' element={<Post />} />
+            <Route path='/profile/:id' element={<Profile />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='*' element={<NotFound />} />
