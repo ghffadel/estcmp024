@@ -19,15 +19,19 @@ export default function ChangePassword () {
         if (res.data.error) {
           alert(res.data.error)
         }
+
+        else {
+          alert('Successfully changed password')
+        }
       })
   }
 
   return (
-    <div>
+    <div className='changePassword'>
       <h1>Change Your Password</h1>
 
       <input
-        type='text'
+        type='password'
         placeholder='Old password...'
         onChange={(event) => {
           setOldPassword(event.target.value)
@@ -35,7 +39,7 @@ export default function ChangePassword () {
       />
 
       <input
-        type='text'
+        type='password'
         placeholder='New password...'
         onChange={(event) => {
           setNewPassword(event.target.value)

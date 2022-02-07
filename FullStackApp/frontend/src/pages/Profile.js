@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 
 import { AuthContext } from '../helpers/AuthContext'
 
@@ -25,7 +26,7 @@ export default function Profile () {
     <div className='profilePageContainer'>
       <div className='basicInfo'>
         {' '}
-        <h1>{username}</h1>
+        <h1>{username + `'s posts`}</h1>
         {
           authState.username === username && (
             <button
@@ -59,6 +60,7 @@ export default function Profile () {
                   <div className='username'>{value.user}</div>
 
                   <div className='buttons'>
+                    <ThumbUpAltIcon className='likeBttn' />
                     <label>{value.Likes.length}</label>
                   </div>
                 </div>

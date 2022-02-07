@@ -26,29 +26,27 @@ export default function Register () {
   }
 
   return (
-    <div>
+    <div className='registerPage'>
       <Formik 
         initialValues={initialValues} 
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
         <Form className='formContainer'>
-          <label>Username:</label>
+          <label>Username</label>
           <ErrorMessage name='username' component='span' />
           <Field 
             autoComplete='off'
             id='inputCreatePost'
             name='username'
-            placeholder='The username goes here...'
           />
 
-          <label>Password:</label>
+          <label>Password</label>
           <ErrorMessage name='password' component='span' />
           <Field 
             autoComplete='off'
             id='inputCreatePost'
             name='password'
-            placeholder='The password goes here...'
             type='password'
           />
 

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-
 import axios from 'axios'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 import { AuthContext } from '../helpers/AuthContext'
 
@@ -24,28 +24,34 @@ export default function Post () {
   }, [])
 
   const addComment = () => {
-    axios
-      .post('http://localhost:3001/comments', { 
-        text: newComment, 
-        PostId: id 
-      }, {
-        headers: {
-          accessToken: localStorage.getItem('accessToken')
-        }
-      })
-      .then((res) => {
-        if (res.data.error) {
-          alert(res.data.error)
-        }
+    if (newComment.length > 0) {
+      axios
+        .post('http://localhost:3001/comments', { 
+          text: newComment, 
+          PostId: id 
+        }, {
+          headers: {
+            accessToken: localStorage.getItem('accessToken')
+          }
+        })
+        .then((res) => {
+          if (res.data.error) {
+            alert(res.data.error)
+          }
 
-        else {
-          setComments([...comments, { 
-            text: newComment,
-            user: res.data.user
-          }])
-          setNewComment('')
-        }
-      })
+          else {
+            setComments([...comments, { 
+              text: newComment,
+              user: res.data.user
+            }])
+            setNewComment('')
+          }
+        })
+      }
+
+      else {
+        alert('Comment cannot be empty')
+      }
   }
 
   const deleteComment = (id) => {
@@ -79,28 +85,42 @@ export default function Post () {
   const editPost = (option) => {
     if (option === 'title') {
       let newTitle = prompt('Enter new title:')
-      axios.put('http://localhost:3001/posts/title', {
-        newTitle: newTitle,
-        id: id
-      }, {
-        headers: {
-          accessToken: localStorage.getItem('accessToken')
-        }
-      })
-      setPostData({...postData, title: newTitle})
+
+      if (newTitle.length > 0) {
+        axios.put('http://localhost:3001/posts/title', {
+          newTitle: newTitle,
+          id: id
+        }, {
+          headers: {
+            accessToken: localStorage.getItem('accessToken')
+          }
+        })
+        setPostData({...postData, title: newTitle})
+      }
+
+      else {
+        alert('Title cannot be empty')
+      }
     }
 
     else {
       let newText = prompt('Enter new text:')
-      axios.put('http://localhost:3001/posts/text', {
-        newText: newText,
-        id: id
-      }, {
-        headers: {
-          accessToken: localStorage.getItem('accessToken')
-        }
-      })
-      setPostData({...postData, text: newText})
+
+      if (newText.length > 0) {
+        axios.put('http://localhost:3001/posts/text', {
+          newText: newText,
+          id: id
+        }, {
+          headers: {
+            accessToken: localStorage.getItem('accessToken')
+          }
+        })
+        setPostData({...postData, text: newText})
+      }
+
+      else {
+        alert('Text cannot be empty')
+      }
     }
   }
 
@@ -130,17 +150,17 @@ export default function Post () {
           </div>
           <div className='footer'>
             {postData.user}
-            {
-              authState.username === postData.user && (
-                <button
-                  onClick={() => {
-                    deletePost(postData.id)
-                  }}
-                >
-                  {' '} Delete Post
-                </button>
-              )
-            }
+            <div className='buttons'>
+              {
+                authState.username === postData.user && (
+                  <DeleteIcon
+                    onClick={() => {
+                      deletePost(postData.id)
+                    }}
+                  />
+                )
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -164,13 +184,21 @@ export default function Post () {
             comments.map((comment, key) => {
               return (
                 <div className='comment' key={key}>
-                  {comment.text}
-                  <label> User: {comment.user}</label>
-                  {
-                    authState.username === comment.user && (
-                      <button onClick={() => {deleteComment(comment.id)}}>X</button>
-                    )
-                  }
+                  <p>{comment.text}</p>
+                  <div className='commentFooter'>
+                    <label> {comment.user}</label>
+                    <div className='buttons'>
+                      {
+                        authState.username === comment.user && (
+                          <DeleteIcon
+                            onClick={() => {
+                              deleteComment(comment.id)
+                            }}
+                          />                      
+                        )
+                      }
+                    </div>
+                  </div>
                 </div>
               )
             })

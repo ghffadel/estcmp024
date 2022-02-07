@@ -45,22 +45,20 @@ export default function CreatePost () {
         validationSchema={validationSchema}
       >
         <Form className='formContainer'>
-          <label>Title:</label>
+          <label>Title</label>
           <ErrorMessage name='title' component='span' />
           <Field
             autoComplete='off'
             id='inputCreatePost'
             name='title'
-            placeholder='The title goes here...'
           />
 
-          <label>Text:</label>
+          <label>Text</label>
           <ErrorMessage name='text' component='span' />
           <Field 
             autoComplete='off'
             id='inputCreatePost'
             name='text'
-            placeholder='The text goes here...'
           />
 
           <button type='submit'>Create Post</button>
