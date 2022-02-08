@@ -18,7 +18,7 @@ export default function Home () {
 
     else {
       axios
-        .get('http://localhost:3001/posts', {
+        .get('https://fullstackapp-api.herokuapp.com/posts', {
           headers: {
             accessToken: localStorage.getItem('accessToken')
           }
@@ -35,7 +35,7 @@ export default function Home () {
   const like = (postId) => {
     axios
       .post(
-        'http://localhost:3001/likes',
+        'https://fullstackapp-api.herokuapp.com/likes',
         { 
           PostId: postId 
         },

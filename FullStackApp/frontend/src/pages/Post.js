@@ -14,11 +14,11 @@ export default function Post () {
   let navigate = useNavigate()
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/posts/byPostId/${id}`).then((res) => {
+    axios.get(`https://fullstackapp-api.herokuapp.com/posts/byPostId/${id}`).then((res) => {
       setPostData(res.data)
     })
 
-    axios.get(`http://localhost:3001/comments/${id}`).then((res) => {
+    axios.get(`https://fullstackapp-api.herokuapp.com/comments/${id}`).then((res) => {
       setComments(res.data)
     })
   }, [])
@@ -26,7 +26,7 @@ export default function Post () {
   const addComment = () => {
     if (newComment.length > 0) {
       axios
-        .post('http://localhost:3001/comments', { 
+        .post('https://fullstackapp-api.herokuapp.com/comments', { 
           text: newComment, 
           PostId: id 
         }, {
@@ -56,7 +56,7 @@ export default function Post () {
 
   const deleteComment = (id) => {
     axios
-      .delete(`http://localhost:3001/comments/${id}`, {
+      .delete(`https://fullstackapp-api.herokuapp.com/comments/${id}`, {
         headers: {
           accessToken: localStorage.getItem('accessToken')
         }
@@ -72,7 +72,7 @@ export default function Post () {
 
   const deletePost = (id) => {
     axios
-      .delete(`http://localhost:3001/posts/${id}`,{
+      .delete(`https://fullstackapp-api.herokuapp.com/posts/${id}`,{
         headers: {
           accessToken: localStorage.getItem('accessToken')
         }
@@ -87,7 +87,7 @@ export default function Post () {
       let newTitle = prompt('Enter new title:')
 
       if (newTitle.length > 0) {
-        axios.put('http://localhost:3001/posts/title', {
+        axios.put('https://fullstackapp-api.herokuapp.com/posts/title', {
           newTitle: newTitle,
           id: id
         }, {
@@ -107,7 +107,7 @@ export default function Post () {
       let newText = prompt('Enter new text:')
 
       if (newText.length > 0) {
-        axios.put('http://localhost:3001/posts/text', {
+        axios.put('https://fullstackapp-api.herokuapp.com/posts/text', {
           newText: newText,
           id: id
         }, {

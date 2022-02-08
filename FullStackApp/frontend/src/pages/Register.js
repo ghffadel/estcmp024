@@ -19,7 +19,7 @@ export default function Register () {
   let navigate = useNavigate()
 
   const onSubmit = (data) => {
-    axios.post('http://localhost:3001/auth', data).then(() => {
+    axios.post('https://fullstackapp-api.herokuapp.com/auth', data).then(() => {
       alert('Successfully created account')
       navigate('/login')
     })

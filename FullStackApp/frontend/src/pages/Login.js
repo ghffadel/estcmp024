@@ -18,7 +18,7 @@ export default function Login () {
       password: password
     }
 
-    axios.post('http://localhost:3001/auth/login', data).then((res) => {
+    axios.post('https://fullstackapp-api.herokuapp.com/auth/login', data).then((res) => {
       if (res.data.error) {
         alert(res.data.error)
       }

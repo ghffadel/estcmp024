@@ -13,11 +13,11 @@ export default function Profile () {
   let navigate = useNavigate()
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/auth/basicinfo/${id}`).then((res) => {
+    axios.get(`https://fullstackapp-api.herokuapp.com/auth/basicinfo/${id}`).then((res) => {
       setUsername(res.data.username)
     })
 
-    axios.get(`http://localhost:3001/posts/byUserId/${id}`).then((res) => {
+    axios.get(`https://fullstackapp-api.herokuapp.com/posts/byUserId/${id}`).then((res) => {
       setPosts(res.data)
     })
   }, [])
